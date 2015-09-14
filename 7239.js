@@ -2,6 +2,7 @@
 
 var TOKEN_CHARACTERS = "!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 var DOUBLE_QUOTED_CHARACTER = /[\t \x21\x23-\x5b\x5d-\x7e\x80-\xff]/;
+var DOUBLE_QUOTED_PAIR = /[\t -\x7e\x80-\xff]/;
 var HOST_PORT = /:\d*$/;
 var HOST_IPV4 = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 var HOST_IPV6 = /^\[(?:(?:(?:[0-9a-f]{1,4}:){6}|::(?:[0-9a-f]{1,4}:){5}|(?:[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){4}|(?:(?:[0-9a-f]{1,4}:)?[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){3}|(?:(?:[0-9a-f]{1,4}:){0,2}[0-9a-f]{1,4})?::(?:[0-9a-f]{1,4}:){2}|(?:(?:[0-9a-f]{1,4}:){0,3}[0-9a-f]{1,4})?::[0-9a-f]{1,4}:|(?:(?:[0-9a-f]{1,4}:){0,4}[0-9a-f]{1,4})?::)(?:[0-9a-f]{1,4}:[0-9a-f]{1,4}|(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5]))|(?:(?:[0-9a-f]{1,4}:){0,5}[0-9a-f]{1,4})?::[0-9a-f]{1,4}|(?:(?:[0-9a-f]{1,4}:){0,6}[0-9a-f]{1,4})?::)\]$/i;
@@ -54,16 +55,27 @@ function parseForwardedHeader(forwardedHeader) {
 			return null;
 		}
 
+		var result = '';
+
 		for (var end = i + 1; end < l; end++) {
 			var c = forwardedHeader.charAt(end);
 
 			if (c === '"') {
-				var result = forwardedHeader.substring(i + 1, end);
 				i = end + 1;
 				return result;
 			}
 
-			if (!DOUBLE_QUOTED_CHARACTER.test(c)) {
+			if (c === '\\') {
+				end++;
+
+				if (end < l && DOUBLE_QUOTED_PAIR.test(c = forwardedHeader.charAt(end))) {
+					result += c;
+				} else {
+					break;
+				}
+			} else if (DOUBLE_QUOTED_CHARACTER.test(c)) {
+				result += c;
+			} else {
 				break;
 			}
 		}

@@ -1,6 +1,6 @@
 {
 	"name": "7239",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Parses Forwarded headers according to RFC 7239.",
 	"keywords": ["forwarded", "proxy", "middleware"],
 	"homepage": "https://github.com/charmander/7239",

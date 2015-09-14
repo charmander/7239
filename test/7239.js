@@ -16,7 +16,7 @@ tap.test('Valid Forwarded headers should be parsed correctly', function (t) {
 
 	t.test('A single quoted pair should be parsed correctly', function (t) {
 		t.deepEquals(
-			parse('for="203.0.113.72"'),
+			parse('for="203.0\\.113.72"'),
 			[{ by: null, for: '203.0.113.72', host: null, proto: null }]
 		);
 		t.deepEquals(
