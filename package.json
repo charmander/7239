@@ -1,0 +1,23 @@
+{
+	"name": "7239",
+	"version": "1.0.0",
+	"description": "Parses Forwarded headers according to RFC 7239.",
+	"keywords": ["forwarded", "proxy", "middleware"],
+	"homepage": "https://github.com/charmander/7239",
+	"bugs": {
+		"url": "https://github.com/charmander/7239/issues"
+	},
+	"license": "ISC",
+	"files": ["7239.js"],
+	"main": "7239",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/charmander/7239"
+	},
+	"scripts": {
+		"test": "tap test"
+	},
+	"devDependencies": {
+		"tap": "~1.4.1"
+	}
+}
