@@ -142,7 +142,7 @@ function parseForwardedHeader(forwardedHeader) {
 			proto: null,
 		};
 
-		do {
+		for (;;) {
 			var pair = readForwardedPair();
 
 			if (pair === null) {
@@ -154,7 +154,13 @@ function parseForwardedHeader(forwardedHeader) {
 			}
 
 			element[pair.name] = pair.value;
-		} while (i < l && forwardedHeader.charAt(i++) === ';');
+
+			if (i === l || forwardedHeader.charAt(i) !== ';') {
+				break;
+			}
+
+			i++;
+		}
 
 		return element;
 	}
