@@ -72,3 +72,42 @@ tap.test('Invalid Forwarded headers should be rejected', function (t) {
 	t.equal(parse('for="[2001:db8::39]",'), null);
 	t.end();
 });
+
+tap.test('Middleware should call back immediately', function (t) {
+	var request = {
+		headers: {
+			forwarded: 'for="[2001:db8::39]"',
+		},
+		forwarded: null,
+	};
+
+	var called = false;
+
+	sttn.middleware(request, null, function () {
+		called = true;
+	});
+
+	t.ok(called);
+	t.deepEquals(
+		request.forwarded,
+		{ by: null, for: '[2001:db8::39]', host: null, proto: null }
+	);
+	t.end();
+});
+
+tap.test('Middleware should ignore invalid headers', function (t) {
+	var request = {
+		headers: {
+			forwarded: 'for=[2001:db8::39]',
+		},
+		forwarded: null,
+	};
+
+	sttn.middleware(request, null, function () {});
+
+	t.deepEquals(
+		request.forwarded,
+		{ by: null, for: null, host: null, proto: null }
+	);
+	t.end();
+});
