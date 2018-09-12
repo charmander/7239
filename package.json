@@ -14,9 +14,9 @@
 		"url": "https://github.com/charmander/7239"
 	},
 	"scripts": {
-		"test": "tap test"
+		"test": "node test"
 	},
 	"devDependencies": {
-		"tap": "~1.4.1"
+		"@charmander/test": "0.4.0-pre"
 	}
 }
