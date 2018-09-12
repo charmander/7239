@@ -8,8 +8,7 @@
 		"url": "https://github.com/charmander/7239/issues"
 	},
 	"license": "ISC",
-	"files": ["7239.js"],
-	"main": "7239",
+	"files": ["index.js"],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/charmander/7239"
