@@ -35,7 +35,9 @@ function parseForwardedHeader(forwardedHeader) {
 	var l = forwardedHeader.length;
 
 	function readToken() {
-		for (var end = i; end < l; end++) {
+		var end;
+
+		for (end = i; end < l; end++) {
 			if (TOKEN_CHARACTERS.indexOf(forwardedHeader.charAt(end)) === -1) {
 				break;
 			}
@@ -105,27 +107,27 @@ function parseForwardedHeader(forwardedHeader) {
 		}
 
 		switch (name) {
-			case 'by':
-			case 'for':
-				if (!isNodeIdentifier(value)) {
-					return null;
-				}
+		case 'by':
+		case 'for':
+			if (!isNodeIdentifier(value)) {
+				return null;
+			}
 
-				break;
+			break;
 
-			case 'host':
-				if (!isHost(value)) {
-					return null;
-				}
+		case 'host':
+			if (!isHost(value)) {
+				return null;
+			}
 
-				break;
+			break;
 
-			case 'proto':
-				if (!SCHEME_NAME.test(value)) {
-					return null;
-				}
+		case 'proto':
+			if (!SCHEME_NAME.test(value)) {
+				return null;
+			}
 
-				break;
+			break;
 		}
 
 		return {
